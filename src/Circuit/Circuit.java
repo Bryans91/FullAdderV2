@@ -49,7 +49,6 @@ public class Circuit {
 		
 		for (String key : this.starting) {
 			try {
-				System.out.println("Starting: " + key);
 				this.allNodes.get(key).handle();
 			} catch (Exception e) {
 				System.out.println("Something went wrong handling the circuit;");
@@ -94,9 +93,10 @@ public class Circuit {
 			String[] children = values.split(",");
 			
 			//add children to node
+			//System.out.println("Parent: " + parent);
 			for(String child : children) {
 				//add child
-				System.out.println("Add child: " + child);
+				//System.out.println("Add child: " + child);
 				this.allNodes.get(parent).addChild(this.allNodes.get(child));
 			}
 			 
@@ -128,7 +128,7 @@ public class Circuit {
 			for(String node : nodes) {
 				if(!this.starting.contains(node)) this.starting.add(node);
 				try {
-					System.out.println("Add input: " + input + " TO: " + node);
+					//System.out.println("Add input: " + input + " TO: " + node);
 					this.allNodes.get(node).addInput(input);
 				} catch (Exception e) {
 					System.out.println("Error adding input");

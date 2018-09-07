@@ -12,15 +12,11 @@ public class main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
-		
-		
+
 		Circuit circ = new Circuit("Circuit1_FullAdder.txt");
-		
-		
-//		C.printStarters();
-		
+
 		circ.run();
+		//circ.printStarters();
 		//circ.printNodes();
 	
 	}

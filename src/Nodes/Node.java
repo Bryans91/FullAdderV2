@@ -7,14 +7,13 @@ public abstract class Node {
 	protected ArrayList<Node> children = new ArrayList<Node>(); //child nodes
 	protected ArrayList<Integer> input = new ArrayList<Integer>(); //collection of inputs
 	protected int output; //output variable
-	protected String name; //identifier
+	protected int inputcount = 2;
 	
 	
 	public void handle() throws Exception {
-		System.out.println("Visit: "+ this.getClass().getSimpleName());
+		
 		//check if all input recieved
-		if(this.input.size() == 2) {	
-			System.out.println("Handle: "+ this.getClass().getSimpleName());
+		if(this.input.size() == this.inputcount) {
 			//set output of node
 			this.output = this.doCalc();
 			
