@@ -15,15 +15,13 @@ public class main {
 		
 		
 		
-		Circuit C = new Circuit("Circuit1_FullAdder.txt", 0);
+		Circuit circ = new Circuit("Circuit1_FullAdder.txt");
 		
-//		C.printNodes();
+		
 //		C.printStarters();
 		
-		C.run();
-		
-	
-		
+		circ.run();
+		//circ.printNodes();
 	
 	}
 

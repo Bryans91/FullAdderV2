@@ -11,10 +11,10 @@ public abstract class Node {
 	
 	
 	public void handle() throws Exception {
-		
+		System.out.println("Visit: "+ this.getClass().getSimpleName());
 		//check if all input recieved
 		if(this.input.size() == 2) {	
-			
+			System.out.println("Handle: "+ this.getClass().getSimpleName());
 			//set output of node
 			this.output = this.doCalc();
 			
@@ -39,7 +39,7 @@ public abstract class Node {
 	}
 	
 	public void addInput(int in) throws Exception {
-		if(this.input.size() <= 2){
+		if(this.input.size() < 2){
 			this.input.add(in);
 		} else {
 			throw new Exception("Trying to add more than 2 inputs to a node, circuit invalid");

@@ -14,6 +14,7 @@ import Nodes.PROBE;
 
 public class Circuit {
 	
+	private boolean readCarryIn = false;
 	private int a, b, carryIn;
 	private NodeFactory factory;
 	private String fileName;
@@ -25,6 +26,11 @@ public class Circuit {
 	private HashMap<String, Node> allNodes; 
 	
 	
+	public Circuit(String fileName){	
+		this(fileName, 0);
+		readCarryIn = true;
+	}
+	
 	public Circuit(String fileName, int carryIn){
 		this.allNodes = new HashMap<String, Node>();
 		this.starting = new ArrayList<String>();
@@ -35,12 +41,15 @@ public class Circuit {
 		this.carryIn = carryIn;
 		this.a = 0; //default
 		this.b = 0; //default
-		this.create();
+		
 	}
 	
 	public void run() {
+		this.create();
+		
 		for (String key : this.starting) {
 			try {
+				System.out.println("Starting: " + key);
 				this.allNodes.get(key).handle();
 			} catch (Exception e) {
 				System.out.println("Something went wrong handling the circuit;");
@@ -87,6 +96,7 @@ public class Circuit {
 			//add children to node
 			for(String child : children) {
 				//add child
+				System.out.println("Add child: " + child);
 				this.allNodes.get(parent).addChild(this.allNodes.get(child));
 			}
 			 
@@ -109,7 +119,7 @@ public class Circuit {
 			//set input & starters
 			int input = this.a;
 			if(line.contains("B:")) input = this.b;
-			if(line.contains("Cin:")) input = this.carryIn;
+			if(line.contains("Cin:") && readCarryIn) input = this.carryIn;
 			
 			String values = line.substring(line.indexOf(":")+1, line.length() -1);
 			String[] nodes = values.split(",");
@@ -118,6 +128,7 @@ public class Circuit {
 			for(String node : nodes) {
 				if(!this.starting.contains(node)) this.starting.add(node);
 				try {
+					System.out.println("Add input: " + input + " TO: " + node);
 					this.allNodes.get(node).addInput(input);
 				} catch (Exception e) {
 					System.out.println("Error adding input");
@@ -145,7 +156,7 @@ public class Circuit {
 		   count++;
 		   idx += sub.length();
 		}
-	  return count;
+		return count;
 	}
 	
 
@@ -156,8 +167,6 @@ public class Circuit {
 			FileReader fr = new java.io.FileReader(fileName);
             BufferedReader br = new BufferedReader(fr);
             String s;
-            int i = 0;
-            boolean nodeCreation = true;
             while ((s = br.readLine()) != null)
             {
             	//if not a comment && clean up line
@@ -180,7 +189,7 @@ public class Circuit {
 	public void printNodes() {
 		System.out.println("All known nodes:");
 		for (String key : this.allNodes.keySet()) {
-			System.out.println(key);
+			System.out.println(key + " : " + this.allNodes.get(key).getClass().getSimpleName());
 		}
 	}
 	

@@ -10,8 +10,6 @@ public class PROBE extends Node {
 		if(this.input.size() == 1) {
 			this.output = this.input.get(0);
 		}
-		
-		System.out.println("Output is: " + this.output);
 	}
 	
 }
