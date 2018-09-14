@@ -38,6 +38,12 @@ public class NodeFactory {
 		
 	}
 	
+	public Node createNode(String nodeType , String name){	
+		Node returnNode = this.createNode(nodeType);
+		if(returnNode != null) returnNode.setName(name);
+		return returnNode;
+	}
+	
 	public Node createNode(String nodeType){	
 	
 		Node node = null;

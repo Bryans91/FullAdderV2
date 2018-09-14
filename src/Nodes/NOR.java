@@ -2,10 +2,10 @@ package Nodes;
 
 public class NOR extends Node {
 
-	protected int inputCount = 2;
+	//2 inputs
 	
 	public int doCalc(){
-		System.out.println("NOR:"+this.input.get(0) + " | "+ this.input.get(1));
+		
 		int out = 0;
 		
 		if(this.input.get(0) == 0 && this.input.get(1) == 0){

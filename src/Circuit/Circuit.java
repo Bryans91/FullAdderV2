@@ -20,6 +20,8 @@ public class Circuit {
 	private String fileName;
 
 	private ArrayList<String> starting;
+	private ArrayList<String> errorbag;
+	
 	
 	private Node Cout,S;
 	
@@ -34,6 +36,7 @@ public class Circuit {
 	public Circuit(String fileName, int carryIn){
 		this.allNodes = new HashMap<String, Node>();
 		this.starting = new ArrayList<String>();
+		this.errorbag = new ArrayList<String>();
 		this.fileName = fileName;
 		this.factory = NodeFactory.getInstance();
 		
@@ -47,6 +50,7 @@ public class Circuit {
 	public void run() {
 		this.create();
 		
+		//run circuit
 		for (String key : this.starting) {
 			try {
 				this.allNodes.get(key).handle();
@@ -55,9 +59,25 @@ public class Circuit {
 				e.printStackTrace();
 			}
 		}
+
 		
-		System.out.println("Output: \n CarryOut: "+ this.getCarryOutValue() + " \n S: "+this.getSValue());
+		//checks
+		this.checkVisited(); //check not connected
+		this.checkLooped(); //check infinite loop
 		
+		if(this.errorbag.size() > 0) {
+			for (String error : this.errorbag) {
+				System.out.println(error);
+			}
+			
+		} else {
+			for (String key : this.starting) {
+				this.allNodes.get(key).printTree();
+			}
+			
+			System.out.println("Output: \n CarryOut: "+ this.getCarryOutValue() + " \n S: "+this.getSValue());
+			
+		}
 	}
 	
 
@@ -88,7 +108,6 @@ public class Circuit {
 		
 		if(countMatches(line,"NODE") > 1 || line.contains("Cout") || line.contains("S")) {
 			//link
-			
 			String values = line.substring(line.indexOf(":")+1, line.length() -1);
 			String[] children = values.split(",");
 			
@@ -103,15 +122,15 @@ public class Circuit {
 		} else {
 			//create
 			String type = line.substring(line.indexOf(":")+1, line.length() -1);
-			this.allNodes.put(parent,factory.createNode(type));
+			this.allNodes.put(parent,factory.createNode(type, parent));
 		}
 		
 	}
 	
 	private void handleOutput(String line) {
 		//create
-		if(line.contains("S:")) this.allNodes.put("S", factory.createNode("PROBE"));
-		if(line.contains("Cout:")) this.allNodes.put("Cout", factory.createNode("PROBE"));
+		if(line.contains("S:")) this.allNodes.put("S", factory.createNode("PROBE", "S"));
+		if(line.contains("Cout:")) this.allNodes.put("Cout", factory.createNode("PROBE", "Cout"));
 	}
 	
 	private void handleInput(String line) {
@@ -192,6 +211,29 @@ public class Circuit {
 			System.out.println(key + " : " + this.allNodes.get(key).getClass().getSimpleName());
 		}
 	}
+	
+	public void checkVisited() {
+		boolean error = false;
+		for (Node node : this.allNodes.values()) {
+			if(!node.getVisited()) error = true; 
+		}
+		if(error) this.errorbag.add("One or more nodes were not visited, circuit incorrect!");
+	}
+	
+	public void checkLooped() {
+		boolean error = false;
+		for (Node node : this.allNodes.values()) {
+			if(node.getLooped()) error = true; 
+		}
+		if(error) this.errorbag.add("One or more nodes were visited multiple times, circuit incorrect!");
+	}
+	
+	public void printNames() {
+		for (Node node : this.allNodes.values()) {
+			System.out.println(node.getName());
+		}
+	}
+	
 	
 	public void printStarters() {
 		System.out.println("Starter nodes");

@@ -9,23 +9,28 @@ public class NOT extends Node {
 	public void handle() throws Exception {
 		//check if all input recieved
 		if(this.input.size() == 1) {
-			//set output of node
-			this.output = this.doCalc();
-			
-			//iterate children and pass on output
-			for (Iterator<Node> nodes = this.children.iterator(); nodes.hasNext();) {
-				Node node = nodes.next();
-				node.addInput(this.output);
+			if(!this.visited) {
+				this.visited = true;
+				//set output of node
+				this.output = this.doCalc();
+				//System.out.println(this.getInfo());
 				
-				//call next handle operation
-				node.handle();
+				//iterate children and pass on output
+				for (Iterator<Node> nodes = this.children.iterator(); nodes.hasNext();) {
+					Node node = nodes.next();
+					node.addInput(this.output);
+					
+					//call next handle operation
+					node.handle();
+				}
+			} else {
+				this.looped = true;
 			}
 		}
 		
 	}
 	
 	public int doCalc(){
-		System.out.println("NOT:"+this.input.get(0));
 		int out = 0;
 		
 		if(this.input.get(0) == 0){
