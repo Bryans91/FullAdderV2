@@ -46,6 +46,7 @@ public class Circuit {
 		this.a = 0; //default
 		this.b = 0; //default
 		
+		
 	}
 	
 	public void run() {
@@ -188,7 +189,7 @@ public class Circuit {
 				this.b = this.overrideInputs("B", this.b);
 			}
 			
-			if(line.contains("Cin:")) {
+			if(line.contains("Cin:") && readCarryIn) {
 				this.carryIn = input;
 				this.carryIn = this.overrideInputs("Cin", this.carryIn);
 			}
