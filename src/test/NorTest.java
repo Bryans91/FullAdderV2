@@ -4,7 +4,7 @@
 package test;
 import java.util.ArrayList;
 
-import nodes.*;
+import Nodes.*;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
@@ -24,10 +24,13 @@ public class NorTest {
 	@Before
 	public void setUp() {
 		this.nor = new NOR();
-		ArrayList<Integer> input = new ArrayList<Integer>();
-		input.add(0);
-		input.add(0);
-		this.nor.setInput(input);
+		try {
+			this.nor.addInput(0);
+			this.nor.addInput(0);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 

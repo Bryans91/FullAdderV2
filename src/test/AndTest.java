@@ -2,13 +2,13 @@
  * 
  */
 package test;
-import java.util.ArrayList;
 
-import nodes.*;
+import Nodes.*;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+
 
 /**
  * @author bryan
@@ -24,10 +24,13 @@ public class AndTest {
 	@Before
 	public void setUp() {
 		this.and = new AND();
-		ArrayList<Integer> input = new ArrayList<Integer>();
-		input.add(1);
-		input.add(1);
-		this.and.setInput(input);
+		try {
+			this.and.addInput(1);
+			this.and.addInput(1);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 

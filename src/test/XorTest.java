@@ -4,7 +4,7 @@
 package test;
 import java.util.ArrayList;
 
-import nodes.*;
+import Nodes.*;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
@@ -16,18 +16,20 @@ import org.junit.Test;
  */
 public class XorTest {
 	
-	
 	private Node xor;
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() {
-		this.xor = new XOR();
-		ArrayList<Integer> input = new ArrayList<Integer>();
-		input.add(1);
-		input.add(0);
-		this.xor.setInput(input);
+		this.xor = new XOR();		
+		try {
+			this.xor.addInput(1);
+			this.xor.addInput(0);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 

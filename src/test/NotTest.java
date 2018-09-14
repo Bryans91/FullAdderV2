@@ -4,11 +4,14 @@
 package test;
 import java.util.ArrayList;
 
-import nodes.*;
+import Nodes.*;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import Nodes.NOT;
+import Nodes.Node;
 
 /**
  * @author bryan
@@ -24,10 +27,12 @@ public class NotTest {
 	@Before
 	public void setUp() {
 		this.not = new NOT();
-		ArrayList<Integer> input = new ArrayList<Integer>();
-		input.add(0);
-		input.add(0);
-		this.not.setInput(input);
+		try {
+			this.not.addInput(0);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 

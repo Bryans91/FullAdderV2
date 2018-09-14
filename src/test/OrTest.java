@@ -4,7 +4,7 @@
 package test;
 import java.util.ArrayList;
 
-import nodes.*;
+import Nodes.*;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
@@ -24,10 +24,14 @@ public class OrTest {
 	@Before
 	public void setUp() {
 		this.or = new OR();
-		ArrayList<Integer> input = new ArrayList<Integer>();
-		input.add(0);
-		input.add(1);
-		this.or.setInput(input);
+		
+		try {
+			this.or.addInput(0);
+			this.or.addInput(1);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 

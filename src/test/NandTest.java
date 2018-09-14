@@ -4,7 +4,7 @@
 package test;
 import java.util.ArrayList;
 
-import nodes.*;
+import Nodes.*;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
@@ -25,9 +25,13 @@ public class NandTest {
 	public void setUp() {
 		this.nand = new NAND();
 		ArrayList<Integer> input = new ArrayList<Integer>();
-		input.add(1);
-		input.add(1);
-		this.nand.setInput(input);
+		try {
+			this.nand.addInput(1);
+			this.nand.addInput(1);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
