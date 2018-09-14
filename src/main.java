@@ -13,9 +13,9 @@ public class main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		//Circuit circ = new Circuit("Circuit1_FullAdder.txt");
+		Circuit circ = new Circuit("Circuit1_FullAdder.txt");
 		//Circuit circ = new Circuit("Circuit4_InfiniteLoop.txt");
-		Circuit circ = new Circuit("Circuit5_NotConnected.txt");
+		//Circuit circ = new Circuit("Circuit5_NotConnected.txt");
 		circ.run();
 
 	

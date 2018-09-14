@@ -63,6 +63,7 @@ public class NodeFactory {
 				}
 			} else {
 				System.out.println("Not found");
+				throw new Exception("Node of type:" + nodeType + " not found! Error in cicruit");
 			}
 		} catch(Exception e) {
 			System.out.println("Nodetype not present in map");

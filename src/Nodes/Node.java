@@ -44,20 +44,9 @@ public abstract class Node {
 		return this.output;
 	}
 	
-	public String getInfo() {
-		String info = "\n";
-		for (Node node : this.parents) {
-			info = info + node.getInfo();
-		}
-		
-		return info + this.getName() + "-" + this.getClass().getSimpleName() + " -> " + this.output + " ";
-	}
 	
 	public void printTree() {
-		
-
 		System.out.print(this.getName() + "("+ this.getClass().getSimpleName()+") = Out: " + this.output);
-		
 		if(this.children.size() > 0) {
 			System.out.println("\nChildren:");
 			for (Node node : this.children) {
@@ -65,8 +54,6 @@ public abstract class Node {
 			}
 			System.out.print("\n");
 		
-			
-	
 			for (Node node : this.children) {
 				node.printTree();
 			}

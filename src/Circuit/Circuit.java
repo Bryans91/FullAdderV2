@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -48,35 +49,55 @@ public class Circuit {
 	}
 	
 	public void run() {
-		this.create();
 		
-		//run circuit
-		for (String key : this.starting) {
-			try {
-				this.allNodes.get(key).handle();
-			} catch (Exception e) {
-				System.out.println("Something went wrong handling the circuit;");
-				e.printStackTrace();
-			}
+				
+		try {
+			//override file input
+			this.fileName = overrideFile();
+			
+			this.create();	
+			
+		} catch(Exception e) {
+			System.out.println("Something went wrong creating the circuit");
 		}
-
 		
-		//checks
-		this.checkVisited(); //check not connected
-		this.checkLooped(); //check infinite loop
 		
-		if(this.errorbag.size() > 0) {
-			for (String error : this.errorbag) {
-				System.out.println(error);
-			}
-			
-		} else {
+		
+		try {
+			System.out.print("Startvalues: \n A:"+this.a + " \n B:"+this.b+" \n Cin:"+this.carryIn+"\n");
+			//run circuit
 			for (String key : this.starting) {
-				this.allNodes.get(key).printTree();
+				try {
+					this.allNodes.get(key).handle();
+				} catch (Exception e) {
+					System.out.println("Something went wrong handling the circuit;");
+					e.printStackTrace();
+				}
 			}
+		} catch(Exception e) {
+			System.out.println("Something went wrong running the circuit");
+		}
+		
+		try {
+			//checks
+			this.checkVisited(); //check not connected
+			this.checkLooped(); //check infinite loop
 			
-			System.out.println("Output: \n CarryOut: "+ this.getCarryOutValue() + " \n S: "+this.getSValue());
-			
+			if(this.errorbag.size() > 0) {
+				for (String error : this.errorbag) {
+					System.out.println(error);
+				}
+				
+			} else {
+				for (String key : this.starting) {
+					this.allNodes.get(key).printTree();
+				}
+				
+				System.out.println("Output: \n CarryOut: "+ this.getCarryOutValue() + " \n S: "+this.getSValue());
+				
+			}
+		} catch(Exception e) {
+			System.out.println("Something went wrong when checking and showing the results");
 		}
 	}
 	
@@ -112,10 +133,8 @@ public class Circuit {
 			String[] children = values.split(",");
 			
 			//add children to node
-			//System.out.println("Parent: " + parent);
 			for(String child : children) {
 				//add child
-				//System.out.println("Add child: " + child);
 				this.allNodes.get(parent).addChild(this.allNodes.get(child));
 			}
 			 
@@ -147,7 +166,6 @@ public class Circuit {
 			for(String node : nodes) {
 				if(!this.starting.contains(node)) this.starting.add(node);
 				try {
-					//System.out.println("Add input: " + input + " TO: " + node);
 					this.allNodes.get(node).addInput(input);
 				} catch (Exception e) {
 					System.out.println("Error adding input");
@@ -159,9 +177,21 @@ public class Circuit {
 			int input = 0;
 			if(line.contains("INPUT_HIGH")) input = 1;
 			
-			if(line.contains("A:")) this.a = input;
-			if(line.contains("B:")) this.b = input;
-			if(line.contains("Cin:")) this.carryIn = input;
+			if(line.contains("A:")) {
+				this.a = input;
+				this.a = this.overrideInputs("A", this.a);
+			}
+			
+			
+			if(line.contains("B:")) {
+				this.b = input;
+				this.b = this.overrideInputs("B", this.b);
+			}
+			
+			if(line.contains("Cin:")) {
+				this.carryIn = input;
+				this.carryIn = this.overrideInputs("Cin", this.carryIn);
+			}
 		}
 	}
 	
@@ -248,5 +278,46 @@ public class Circuit {
 	public int getSValue() {
 		return this.S.getOutput();
 	}
+	
+	public int overrideInputs(String id, int current) {
+		System.out.println("Set value for " + id +", currently("+ current + " from file): Leave empty for current");
+		try {
+			String input = this.readInput();
+			if(!input.isEmpty()) {
+				int var = Integer.parseInt(input);
+				
+				if(var == 1 || var == 0) {
+					return var;
+				}
+			}
+		} catch(Exception e) {
+			System.out.println("Unable to parse int, using default");
+		}
+		return current;
+	}
+	
+	public String overrideFile() {
+		System.out.println("Change file name? (Current: " + this.fileName + "): Leave empty for current");
+		String override = this.readInput();
+		
+		if(!override.isEmpty()) return override;
+			
+		return this.fileName;
+	}
+	
+	
+	public String readInput() {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String s = "";
+		try {
+			s = br.readLine();
+		} catch (IOException e) {
+			System.out.println("Error reading input");
+		}
+		return s;
+		
+	}
+	
+	
 
 }
